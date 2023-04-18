@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
 const routes = require('./routes');
+const Handlebars = require('handlebars/runtime');
+
+
 
 
 mongoose.connect('mongodb+srv://nazsamandarova:fuxxos-xYdcen-0qitjy@cluster0.3ru3g1o.mongodb.net/?retryWrites=true&w=majority', {
@@ -12,7 +15,8 @@ mongoose.connect('mongodb+srv://nazsamandarova:fuxxos-xYdcen-0qitjy@cluster0.3ru
 
 const app = express();
 
-app.engine('hbs', Handlebars({ defaultLayout: 'main', extname: '.hbs' }));
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
+
 
 app.set('view engine', 'hbs');
 
