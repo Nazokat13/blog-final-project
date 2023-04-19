@@ -8,14 +8,14 @@ const Handlebars = require('handlebars/runtime');
 
 
 
-mongoose.connect('mongodb+srv://nazsamandarova:fuxxos-xYdcen-0qitjy@cluster0.3ru3g1o.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://nazsamandarova:Mongodb2023@cluster0.3ru3g1o.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
 const app = express();
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
+app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }));
 
 
 app.set('view engine', 'hbs');
