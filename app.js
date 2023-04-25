@@ -8,7 +8,7 @@ const Handlebars = require('handlebars/runtime');
 
 
 
-mongoose.connect('mongodb+srv://nazsamandarova:Mongodb2023@cluster0.3ru3g1o.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://nazsamandarova:Mongodb.2023@cluster0.3ru3g1o.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

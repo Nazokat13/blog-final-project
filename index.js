@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 // Mongoose middleware
 mongoose
-  .connect('mongodb+srv://nazsamandarova:Mongodb.2023@cluster0.3ru3g1o.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect('mongodb+srv://nazsamandarova:Mongodb.2023@cluster0.3ru3g1o.mongodb.net/blog')
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
