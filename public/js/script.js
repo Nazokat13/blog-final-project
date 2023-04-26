@@ -28,4 +28,13 @@ document.addEventListener("DOMContentLoaded", function() {
       postContainer.appendChild(post);
     });
   });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const element = document.querySelector("#element-id");
+    if (element) {
+      element.addEventListener("click", function() {
+        // do something
+      });
+    }
+  });
   

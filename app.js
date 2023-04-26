@@ -1,4 +1,5 @@
 const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
@@ -14,7 +15,6 @@ mongoose.connect('mongodb+srv://nazsamandarova:Mongodb.2023@cluster0.3ru3g1o.mon
   useUnifiedTopology: true
 });
 
-const app = express();
 
 app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }));
 
@@ -27,6 +27,16 @@ app.use(express.static('public'));
 
 app.use('/', routes);
 app.use('/css', express.static(__dirname + '/public/css', { type: 'text/css' }));
+
+
+app.use(express.static('public'));
+
+app.get('/js/script.js', function(req, res, next) {
+  res.type('text/javascript');
+  next();
+});
+
+
 
 const PORT = 3000;
 app.listen(PORT, () => {

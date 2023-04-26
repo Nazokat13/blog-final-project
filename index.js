@@ -78,4 +78,10 @@ app.put('/posts/:id', async (req, res) => {
   res.redirect(`/posts/${req.params.id}`)
 })
 
+
+app.get('/', async (req, res) => {
+  const posts = await Post.find().sort({ createdAt: 'desc' })
+  res.render('index', { posts: posts })
+})
+
   
