@@ -1,56 +1,73 @@
 const express = require('express');
-const app = express();
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const exphbs = require('express-handlebars');
-const routes = require('./routes');
-const Handlebars = require('handlebars/runtime');
-const methodOverride = require('method-override')
+const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 
+const app = express();
 
+// Set up body-parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
 
+// Set up method-override middleware
+app.use(methodOverride('_method'));
 
-mongoose.connect('mongodb+srv://nazsamandarova:Mongodb.2023@cluster0.3ru3g1o.mongodb.net/?retryWrites=true&w=majority', {
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost/blog', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
-
-app.engine('hbs', exphbs.engine({ defaultLayout: 'main', extname: '.hbs' }));
-
-
-app.set('view engine', 'hbs');
-
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(methodOverride('_method'))
-app.use(express.static('public'));
-
-app.use('/', routes);
-app.use('/css', express.static(__dirname + '/public/css', { type: 'text/css' }));
-
-
-app.use(express.static('public'));
-
-app.get('/js/script.js', function(req, res, next) {
-  res.type('text/javascript');
-  next();
+// Define the Post model
+const Post = mongoose.model('Post', {
+  title: String,
+  content: String,
 });
 
-
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
-});
-
+// Define routes for handling requests
 app.get('/', async (req, res) => {
-  const posts = await Post.find().sort({ createdAt: 'desc' }).limit(10).exec();
+  const posts = await Post.find();
   res.render('index', { posts });
 });
 
-//use method-override middleware to edit posts
+app.get('/posts/new', (req, res) => {
+  res.render('new');
+});
 
-const methodOverride = require('method-override')
-app.use(methodOverride('_method'))
+app.post('/posts', async (req, res) => {
+  const { title, content } = req.body;
+  const post = new Post({ title, content });
+  await post.save();
+  res.redirect('/');
+});
 
+app.get('/posts/:id', async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  res.render('show', { post });
+});
 
+app.get('/posts/:id/edit', async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  res.render('edit', { post });
+});
+
+app.put('/posts/:id', async (req, res) => {
+  const { title, content } = req.body;
+  const post = await Post.findByIdAndUpdate(req.params.id, { title, content });
+  res.redirect(`/posts/${post.id}`);
+});
+
+app.delete('/posts/:id', async (req, res) => {
+  await Post.findByIdAndDelete(req.params.id);
+  res.redirect('/');
+});
+
+// Set up the view engine
+app.set('view engine', 'ejs');
+
+// Serve static assets from the public folder
+app.use(express.static('public'));
+
+// Start the server
+app.listen(3000, () => {
+  console.log('Server is listening on port 3000');
+});
